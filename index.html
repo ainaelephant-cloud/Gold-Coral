@@ -18,7 +18,8 @@
         <meta name="twitter:description" content="Luxury concierge, lifestyle and VIP assistance services in the Dominican Republic.">
         <meta name="twitter:image" content="https://goldcoral.vip/img/logo_negro.jpeg">
         <link rel="icon" type="image/jpeg" href="img/favicon.jpeg?v=20260331-1">
-        <link rel="apple-touch-icon" href="img/favicon.jpeg?v=20260331-1">
+        <link rel="apple-touch-icon" href="/img/icon-192.png">
+        <link rel="manifest" href="/manifest.webmanifest">
         <link rel="stylesheet" href="styles/styles.css?v=20260331-1">
         <script src="https://unpkg.com/globe.gl"></script>
         <script src="scripts/script.js?v=20260331-1" defer></script>
@@ -31,5 +32,14 @@
         <div class="section" id="about-us"></div>
         <div class="section" id="contacto"></div>
         <div id="footer"></div>
+
+        <script>
+            // PWA: registra el service worker para que la web sea instalable.
+            if ("serviceWorker" in navigator) {
+                window.addEventListener("load", function () {
+                    navigator.serviceWorker.register("/sw.js").catch(function () {});
+                });
+            }
+        </script>
     </body>
 </html>

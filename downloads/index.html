@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downloads · App Gold Coral</title>
+    <meta name="description" content="Instala Gold Coral como app en tu móvil o escritorio: acceso directo, pantalla completa y uso sin conexión.">
+    <meta name="theme-color" content="#0b0b0b">
+    <link rel="canonical" href="https://goldcoral.vip/downloads">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" type="image/jpeg" href="../img/favicon.jpeg">
+    <link rel="apple-touch-icon" href="/img/icon-192.png">
+    <style>
+        :root { --bg-main:#020202; --gold:#d4af37; --gold-light:#f6e3a1; --text-soft:#f7f1e3; --line-soft:rgba(255,232,163,0.26); }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background:
+                radial-gradient(circle at top, rgba(212,175,55,0.14), transparent 32%),
+                linear-gradient(180deg, #0b0b0b 0%, var(--bg-main) 30%);
+            color: var(--text-soft);
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        .wrap { width: min(760px, calc(100% - 44px)); margin: 0 auto; padding: 28px 0 70px; }
+        header.brand { display:flex; align-items:center; padding:10px 0 26px; border-bottom:1px solid var(--line-soft); }
+        header.brand img { height: 52px; width:auto; }
+        .eyebrow { display:inline-block; margin:34px 0 6px; color:var(--gold-light); letter-spacing:0.22em; text-transform:uppercase; font-size:0.74rem; }
+        h1 { font-family:"Palatino Linotype","Book Antiqua",Georgia,serif; color:var(--gold-light); font-size:2.1rem; margin:4px 0 10px; }
+        p { color: rgba(247,241,227,0.9); }
+        .install-card {
+            margin: 30px 0; padding: 28px; border:1px solid var(--line-soft); border-radius:18px;
+            background: linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.02));
+            text-align:center;
+        }
+        .install-card img { width: 110px; height:110px; border-radius:24px; box-shadow:0 10px 40px rgba(0,0,0,0.5); }
+        .btn-install {
+            display:inline-block; margin-top:20px; padding:15px 30px; border:none; border-radius:999px; cursor:pointer;
+            font-size:1.05rem; font-weight:600; color:#1a1407;
+            background: linear-gradient(180deg, var(--gold-light), var(--gold));
+            font-family: inherit;
+        }
+        .btn-install:hover { filter:brightness(1.06); }
+        .hint { margin-top:14px; font-size:0.9rem; color: rgba(247,241,227,0.6); }
+        h2 { font-family:"Palatino Linotype","Book Antiqua",Georgia,serif; color:var(--gold-light); font-size:1.2rem; margin:26px 0 6px; }
+        .steps { display:grid; gap:14px; margin-top:10px; }
+        .step { padding:14px 18px; border:1px solid var(--line-soft); border-radius:12px; background:rgba(255,255,255,0.02); }
+        .step b { color: var(--gold-light); }
+        footer.page { margin-top:40px; padding-top:22px; border-top:1px solid var(--line-soft); display:flex; flex-wrap:wrap; gap:10px 24px; justify-content:space-between; color:rgba(247,241,227,0.7); font-size:0.9rem; }
+        a { color: var(--gold-light); }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header class="brand">
+            <a href="/" aria-label="Gold Coral inicio"><img src="../img/logo.png" alt="Gold Coral"></a>
+        </header>
+
+        <span class="eyebrow">Downloads</span>
+        <h1>App Gold Coral</h1>
+        <p>Instala Gold Coral como aplicación en tu móvil o escritorio: icono en tu pantalla de inicio, experiencia a pantalla completa y acceso rápido. No ocupa apenas espacio y se actualiza sola.</p>
+
+        <div class="install-card">
+            <img src="/img/icon-512.png" alt="Icono de la app Gold Coral">
+            <div>
+                <button class="btn-install" id="install-btn" type="button">📲 Instalar App Gold Coral</button>
+                <p class="hint" id="install-hint">Pulsa para instalar. Si tu navegador no lo permite directamente, sigue las instrucciones de abajo.</p>
+            </div>
+        </div>
+
+        <h2>Cómo instalarla según tu dispositivo</h2>
+        <div class="steps">
+            <div class="step"><b>Android (Chrome):</b> pulsa el botón de arriba, o el menú <b>⋮</b> → <b>Instalar aplicación / Añadir a pantalla de inicio</b>.</div>
+            <div class="step"><b>iPhone / iPad (Safari):</b> pulsa el botón <b>Compartir</b> (cuadro con flecha) → <b>Añadir a pantalla de inicio</b>.</div>
+            <div class="step"><b>Escritorio (Chrome / Edge):</b> pulsa el botón de arriba, o el icono de <b>instalar</b> (pantalla con flecha) en la barra de direcciones.</div>
+        </div>
+
+        <footer class="page">
+            <span>© 2026 Gold Coral.</span>
+            <a href="/">← Volver al inicio</a>
+        </footer>
+    </div>
+
+    <script>
+        // Registro del service worker (necesario para que sea instalable).
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker.register("/sw.js").catch(function () {});
+            });
+        }
+
+        var deferredPrompt = null;
+        var btn = document.getElementById("install-btn");
+        var hint = document.getElementById("install-hint");
+
+        window.addEventListener("beforeinstallprompt", function (e) {
+            e.preventDefault();
+            deferredPrompt = e;
+            hint.textContent = "Tu navegador permite instalarla con un toque.";
+        });
+
+        btn.addEventListener("click", function () {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function (choice) {
+                    if (choice.outcome === "accepted") {
+                        hint.textContent = "¡Instalada! Búscala en tu pantalla de inicio.";
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                hint.textContent = "Tu navegador no ofrece instalación directa: sigue las instrucciones de abajo para tu dispositivo.";
+                document.querySelector(".steps").scrollIntoView({ behavior: "smooth" });
+            }
+        });
+
+        window.addEventListener("appinstalled", function () {
+            hint.textContent = "¡Gracias! La app ya está instalada.";
+        });
+    </script>
+</body>
+</html>
