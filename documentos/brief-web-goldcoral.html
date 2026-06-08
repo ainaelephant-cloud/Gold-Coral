@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Brief — Web Gold Coral</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    :root{
+        --bg:#070707; --bg2:#0e0d0b; --panel:#121110;
+        --gold:#d4af37; --gold-light:#f6e3a1; --gold-bright:#ffe8a3; --gold-deep:#8f6a12;
+        --text:#f7f1e3; --muted:#bcb3a1; --line:rgba(255,232,163,0.18);
+        --grad:linear-gradient(120deg,#f8ecbf 0%,#d4af37 50%,#b8860b 100%);
+        --font-display:"Cormorant Garamond",Georgia,serif;
+        --font-head:"Space Grotesk","Segoe UI",sans-serif;
+        --font-body:"Inter","Segoe UI",sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;font-size:13px;}
+    .page{
+        position:relative;width:210mm;height:297mm;margin:0 auto;padding:17mm 20mm;
+        background:
+            radial-gradient(60% 40% at 80% -5%,rgba(212,175,55,0.10),transparent 60%),
+            radial-gradient(50% 40% at 0% 100%,rgba(143,106,18,0.10),transparent 60%),
+            linear-gradient(180deg,var(--bg) 0%,var(--bg2) 60%,var(--bg) 100%);
+        overflow:hidden;
+    }
+    .page + .page{page-break-before:always;}
+
+    /* ---- Cover ---- */
+    .cover{display:flex;flex-direction:column;justify-content:center;text-align:center;}
+    .cover .logo{width:230px;margin:0 auto 30px;filter:drop-shadow(0 6px 22px rgba(212,175,55,0.25));}
+    .cover .eyebrow{font-family:var(--font-head);letter-spacing:0.34em;text-transform:uppercase;
+        font-size:11px;color:var(--gold-light);margin-bottom:22px;}
+    .cover h1{font-family:var(--font-display);font-weight:600;font-size:58px;line-height:1.05;margin-bottom:14px;}
+    .cover h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .cover .sub{font-family:var(--font-display);font-style:italic;font-size:22px;color:var(--muted);margin-bottom:40px;}
+    .cover .meta{display:inline-flex;flex-direction:column;gap:6px;border:1px solid var(--line);
+        border-radius:14px;padding:18px 30px;background:rgba(255,255,255,0.02);font-family:var(--font-head);
+        font-size:12px;letter-spacing:0.06em;color:var(--muted);}
+    .cover .meta b{color:var(--gold-bright);font-weight:600;}
+    .cover .rule{width:80px;height:2px;background:var(--grad);margin:26px auto;border-radius:2px;}
+
+    /* ---- Content ---- */
+    .kicker{font-family:var(--font-head);letter-spacing:0.28em;text-transform:uppercase;font-size:10px;
+        color:var(--gold-light);margin-bottom:6px;}
+    h2{font-family:var(--font-display);font-weight:600;font-size:26px;color:var(--text);margin:0 0 4px;}
+    h2 .num{color:var(--gold);font-size:18px;font-family:var(--font-head);margin-right:10px;}
+    .section{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line);}
+    .section:last-child{border-bottom:none;}
+    h3{font-family:var(--font-head);font-weight:600;font-size:13px;color:var(--gold-bright);
+        text-transform:uppercase;letter-spacing:0.1em;margin:16px 0 8px;}
+    p{margin:8px 0;color:var(--text);}
+    .lead{color:var(--muted);}
+    strong{color:var(--gold-bright);font-weight:600;}
+    ul{list-style:none;margin:8px 0;}
+    ul li{position:relative;padding-left:18px;margin:5px 0;}
+    ul li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;
+        background:var(--grad);}
+    ol{margin:8px 0 8px 4px;counter-reset:item;list-style:none;}
+    ol li{position:relative;padding-left:30px;margin:7px 0;}
+    ol li::before{counter-increment:item;content:counter(item);position:absolute;left:0;top:0;
+        width:20px;height:20px;border-radius:50%;background:rgba(212,175,55,0.14);border:1px solid var(--line);
+        color:var(--gold-bright);font-family:var(--font-head);font-size:10px;font-weight:600;
+        display:flex;align-items:center;justify-content:center;}
+    table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px;}
+    th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);}
+    th{font-family:var(--font-head);text-transform:uppercase;letter-spacing:0.08em;font-size:10px;color:var(--gold-light);}
+    td code,p code,li code{font-family:"Consolas",monospace;font-size:11px;color:var(--gold-bright);
+        background:rgba(255,255,255,0.04);padding:1px 6px;border-radius:5px;}
+    pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+        margin:10px 0;font-family:"Consolas",monospace;font-size:11px;color:var(--muted);line-height:1.5;
+        white-space:pre-wrap;}
+    .palette{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap;}
+    .swatch{display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-head);font-size:9px;color:var(--muted);}
+    .chip{width:52px;height:34px;border-radius:8px;border:1px solid var(--line);}
+    .note{border-left:3px solid var(--gold);background:rgba(212,175,55,0.08);padding:12px 16px;border-radius:0 10px 10px 0;margin:12px 0;color:var(--gold-light);}
+    .pagefoot{position:absolute;bottom:12mm;left:22mm;right:22mm;display:flex;justify-content:space-between;
+        font-family:var(--font-head);font-size:9px;letter-spacing:0.1em;color:rgba(188,179,161,0.6);
+        border-top:1px solid var(--line);padding-top:8px;text-transform:uppercase;}
+    @page{size:A4;margin:0;}
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="page cover">
+    <img class="logo" src="../img/logo.png" alt="Gold Coral">
+    <div class="eyebrow">Luxury Dominican Experience</div>
+    <h1>Brief de <span class="grad">la Web</span></h1>
+    <div class="sub">Documento de marca y especificaciones · goldcoral.vip</div>
+    <div class="rule"></div>
+    <div class="meta">
+        <span>Proyecto: <b>Web corporativa Gold Coral</b></span>
+        <span>Idiomas: <b>Español / Inglés</b></span>
+        <span>Actualizado: <b>08 / 06 / 2026</b></span>
+    </div>
+</section>
+
+<!-- ============ PAGE 2 ============ -->
+<section class="page">
+    <div class="section">
+        <div class="kicker">Resumen</div>
+        <h2><span class="num">01</span>Resumen del proyecto</h2>
+        <p>Gold Coral es un servicio integral de <strong>lifestyle, asistencia y concierge de lujo</strong>
+        en la República Dominicana, con foco en Punta Cana. La web actúa como escaparate de marca:
+        transmite exclusividad, cercanía y confianza, y canaliza el contacto de clientes potenciales.</p>
+        <p class="lead"><em>Esencia: «Luxury Dominican Experience — Nos ocupamos de todo para que tú solo disfrutes».</em></p>
+    </div>
+
+    <div class="section">
+        <div class="kicker">Propósito</div>
+        <h2><span class="num">02</span>Objetivo de la web</h2>
+        <ul>
+            <li>Presentar la marca y su propuesta de valor premium.</li>
+            <li>Mostrar el catálogo de servicios (las «Líneas» de Gold Coral).</li>
+            <li>Generar contacto cualificado y solicitudes de información.</li>
+            <li>Reforzar la percepción de marca de lujo, discreta y personalizada.</li>
+        </ul>
+        <div class="note">Estado actual: web en fase inicial — «Estamos preparando la experiencia completa».</div>
+    </div>
+
+    <div class="section">
+        <div class="kicker">Audiencia</div>
+        <h2><span class="num">03</span>Público objetivo</h2>
+        <p>Clientes VIP, familias con agendas exigentes, turistas y residentes premium en
+        Punta Cana / República Dominicana que buscan servicios personalizados, discretos y de alta calidad.</p>
+    </div>
+
+    <div class="section">
+        <div class="kicker">Arquitectura de contenido</div>
+        <h2><span class="num">04</span>Estructura de la web</h2>
+        <p class="lead">Web <em>one-page</em> con navegación por anclas.</p>
+        <table>
+            <tr><th>Sección</th><th>Ancla</th><th>Contenido</th></tr>
+            <tr><td>Cabecera / menú</td><td><code>header</code></td><td>Logo + navegación + idioma + CTA</td></tr>
+            <tr><td>Inicio (Hero)</td><td><code>#home</code></td><td>Titular, intro, CTAs y tarjeta destacada</td></tr>
+            <tr><td>Servicios</td><td><code>#servicios</code></td><td>Carrusel con las 5 líneas de servicio</td></tr>
+            <tr><td>Sobre Nosotros</td><td><code>#about-us</code></td><td>Texto de marca + globo interactivo</td></tr>
+            <tr><td>Contacto</td><td><code>#contacto</code></td><td>Texto + botón de email</td></tr>
+            <tr><td>Footer</td><td><code>footer</code></td><td>Marca, redes sociales y aviso legal</td></tr>
+            <tr><td>Privacidad</td><td><code>/privacy</code></td><td>Política de privacidad (ES/EN)</td></tr>
+        </table>
+    </div>
+    <div class="pagefoot"><span>Gold Coral · Brief de la web</span><span>02</span></div>
+</section>
+
+<!-- ============ PAGE 3 ============ -->
+<section class="page">
+    <div class="section">
+        <div class="kicker">Catálogo</div>
+        <h2><span class="num">05</span>Servicios — las «Líneas»</h2>
+        <ol>
+            <li><strong>Gold Line (a medida):</strong> servicio premium personalizado — gestiones, viajes, eventos, chófer, asistencia personal.</li>
+            <li><strong>Family Line (transporte escolar):</strong> recogida y traslado de niños a colegio y actividades, con seguimiento.</li>
+            <li><strong>Home Line (limpieza, chef):</strong> servicios del hogar — limpieza, cocina privada, organización.</li>
+            <li><strong>Party Line (eventos):</strong> organización integral — decoración, catering, entretenimiento, música.</li>
+            <li><strong>Travel Line (experiencias):</strong> escapadas y actividades, excursiones VIP, transporte y planes a medida.</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <div class="kicker">Identidad</div>
+        <h2><span class="num">06</span>Identidad visual</h2>
+        <p>Estilo de <strong>lujo elegante</strong>, oscuro y dorado, alineado con el lenguaje visual de AIvance.</p>
+        <h3>Paleta</h3>
+        <div class="palette">
+            <div class="swatch"><div class="chip" style="background:#020202"></div>#020202</div>
+            <div class="swatch"><div class="chip" style="background:#131313"></div>#131313</div>
+            <div class="swatch"><div class="chip" style="background:#d4af37"></div>#d4af37</div>
+            <div class="swatch"><div class="chip" style="background:#f6e3a1"></div>#f6e3a1</div>
+            <div class="swatch"><div class="chip" style="background:#ffe8a3"></div>#ffe8a3</div>
+            <div class="swatch"><div class="chip" style="background:#8f6a12"></div>#8f6a12</div>
+            <div class="swatch"><div class="chip" style="background:#f7f1e3"></div>#f7f1e3</div>
+        </div>
+        <h3>Tipografías</h3>
+        <ul>
+            <li><strong>Cormorant Garamond</strong> — serif display elegante (titulares y marca).</li>
+            <li><strong>Space Grotesk</strong> — menú, etiquetas y botones.</li>
+            <li>Inter / Segoe UI — cuerpo de texto.</li>
+        </ul>
+        <h3>Cabecera / menú (rediseño 08/06/2026)</h3>
+        <ul>
+            <li>Cabecera transparente que pasa a panel oscuro con blur al hacer scroll.</li>
+            <li>Logo a la izquierda con brillo dorado sutil.</li>
+            <li>Enlaces con subrayado degradado animado al pasar el ratón.</li>
+            <li>Idioma en toggle tipo píldora EN/ES y CTA «Contacto» en degradado dorado.</li>
+            <li>En móvil: hamburguesa que despliega un panel con blur (breakpoint 860px).</li>
+        </ul>
+    </div>
+    <div class="pagefoot"><span>Gold Coral · Brief de la web</span><span>03</span></div>
+</section>
+
+<!-- ============ PAGE 4 ============ -->
+<section class="page">
+    <div class="section">
+        <div class="kicker">Funcionalidad</div>
+        <h2><span class="num">07</span>Funcionalidades</h2>
+        <ul>
+            <li><strong>Multidioma ES/EN</strong> con persistencia en <code>localStorage</code>.</li>
+            <li><strong>Menú responsive</strong> con hamburguesa y estado <code>scrolled</code>.</li>
+            <li><strong>Carrusel de servicios</strong> con navegación por flechas.</li>
+            <li><strong>Globo 3D interactivo</strong> señalando Punta Cana (<code>globe.gl</code>).</li>
+            <li><strong>Animaciones scroll-reveal</strong> al entrar las secciones.</li>
+            <li><strong>PWA básica:</strong> <code>manifest.webmanifest</code> + service worker <code>sw.js</code>.</li>
+            <li><strong>SEO/Social:</strong> metadatos Open Graph y Twitter Card.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="kicker">Tecnología</div>
+        <h2><span class="num">08</span>Arquitectura técnica</h2>
+        <p><strong>Stack:</strong> HTML + CSS + JavaScript <em>vanilla</em> (sin framework ni build).</p>
+        <p>Cada sección vive en <code>sections/*.html</code> y se inyecta por <code>fetch()</code>, por lo que
+        la web <strong>debe servirse por HTTP</strong> (no abrir como <code>file://</code>).</p>
+        <pre>web goldcoral/
+├─ index.html              # Página principal (placeholders)
+├─ sections/               # Trozos HTML inyectados por fetch
+│  ├─ header.html · home.html · servicios.html
+│  ├─ about-us.html · contacto.html · footer.html
+├─ styles/styles.css       # Estilos globales
+├─ scripts/script.js       # i18n, menú, carrusel, globo, carga
+├─ img/                    # Logos, favicon, iconos, carrusel
+├─ sw.js · manifest.webmanifest   # PWA
+└─ documentos/             # Documentación (este brief)</pre>
+        <p class="lead">Versionado de assets con parámetro <code>?v=</code> (cache-busting). Variable
+        <code>ASSET_VERSION</code> actual: <code>20260608-1</code>.</p>
+    </div>
+
+    <div class="section">
+        <div class="kicker">Publicación</div>
+        <h2><span class="num">09</span>Despliegue</h2>
+        <div class="note">El sitio <strong>NO se publica por git</strong>. Se sube por <strong>FTP manual</strong>
+        a <code>/var/www/goldcoral.vip/public</code>. El FTP es la fuente de verdad en producción.</div>
+        <p>Al desplegar, subir: <code>index.html</code>, <code>sections/</code>, <code>styles/</code>,
+        <code>scripts/</code>, <code>img/</code>, <code>sw.js</code> y <code>manifest.webmanifest</code>,
+        y actualizar el <code>?v=</code> para evitar caché antigua.</p>
+    </div>
+
+    <div class="section">
+        <div class="kicker">Contacto</div>
+        <h2><span class="num">10</span>Contacto</h2>
+        <p>Email: <strong>info@goldcoral.vip</strong> · Redes: Instagram y TikTok (enlazadas en el footer).</p>
+    </div>
+    <div class="pagefoot"><span>Gold Coral · Brief de la web</span><span>04</span></div>
+</section>
+
+</body>
+</html>
