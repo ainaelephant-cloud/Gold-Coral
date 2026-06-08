@@ -1,0 +1,7 @@
+# Credenciales y datos sensibles — NO subir nunca a GitHub
+ACCESO-FTP.md
+.ftp-credentials*
+*.secret
+
+# Copias de seguridad locales de producción
+_backup_ftp_*/

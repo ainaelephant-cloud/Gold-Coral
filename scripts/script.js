@@ -1,5 +1,5 @@
 const STORAGE_LANGUAGE_KEY = "gold-coral-language";
-const ASSET_VERSION = "20260331-1";
+const ASSET_VERSION = "20260608-1";
 let currentLanguage = localStorage.getItem(STORAGE_LANGUAGE_KEY) || "en";
 
 const translations = {
@@ -74,13 +74,13 @@ const translations = {
             p3: "We believe time is the most valuable asset, and that is why we take care of everything else.",
             mapEyebrow: "Dominican Republic",
             mapTitle: "Dominican essence, elevated",
-            mapBody: "Gold Coral connects luxury, warmth and experience with the spirit of the Caribbean, allowing Punta Cana to stand out as a destination and reference point.",
+            mapBody: "<span translate='no' class='notranslate'>Gold Coral</span> connects luxury, warmth and experience with the spirit of the Caribbean, allowing Punta Cana to stand out as a destination and reference point.",
             globeTag: "Punta Cana"
         },
         contact: {
             eyebrow: "Contact",
             title: "Let's talk about the experience you need",
-            intro: "Tell us what kind of service you are looking for and we will prepare a thoughtful, clear and tailored response. Gold Coral works with discreet, personalized, detail-oriented care.",
+            intro: "Tell us what kind of service you are looking for and we will prepare a thoughtful, clear and tailored response. <span translate='no' class='notranslate'>Gold Coral</span> works with discreet, personalized, detail-oriented care.",
             lead: "Write to us to request information, resolve questions or start designing a bespoke experience with us.",
             pointOne: "Personalized assistance",
             pointTwo: "Professional response",
@@ -92,7 +92,7 @@ const translations = {
             brand: "Luxury Dominican Experience",
             home: "Instagram",
             services: "TikTok",
-            copy: "© 2026 Gold Coral. Premium, discreet and personalized attention."
+            copy: "© 2026 <span translate='no' class='notranslate'>Gold Coral</span>. Premium, discreet and personalized attention."
         }
     },
     es: {
@@ -166,13 +166,13 @@ const translations = {
             p3: "Creemos que el tiempo es lo más valioso, y por eso nos encargamos de todo lo demás.",
             mapEyebrow: "República Dominicana",
             mapTitle: "Presencia con esencia dominicana",
-            mapBody: "Gold Coral conecta lujo, calidez y experiencia con el espíritu del Caribe, dejando que Punta Cana destaque como punto de referencia.",
+            mapBody: "<span translate='no' class='notranslate'>Gold Coral</span> conecta lujo, calidez y experiencia con el espíritu del Caribe, dejando que Punta Cana destaque como punto de referencia.",
             globeTag: "Punta Cana"
         },
         contact: {
             eyebrow: "Contacto",
             title: "Hablemos de la experiencia que necesitas",
-            intro: "Cuéntanos qué tipo de servicio buscas y prepararemos una respuesta cuidada, clara y adaptada a tu situación. Gold Coral trabaja con atención discreta, personalizada y orientada al detalle.",
+            intro: "Cuéntanos qué tipo de servicio buscas y prepararemos una respuesta cuidada, clara y adaptada a tu situación. <span translate='no' class='notranslate'>Gold Coral</span> trabaja con atención discreta, personalizada y orientada al detalle.",
             lead: "Escríbenos para solicitar información, resolver dudas o empezar a diseñar una experiencia a medida contigo.",
             pointOne: "Asistencia personalizada",
             pointTwo: "Respuesta profesional",
@@ -184,7 +184,7 @@ const translations = {
             brand: "Luxury Dominican Experience",
             home: "Instagram",
             services: "TikTok",
-            copy: "© 2026 Gold Coral. Atención premium, discreta y personalizada."
+            copy: "© 2026 <span translate='no' class='notranslate'>Gold Coral</span>. Atención premium, discreta y personalizada."
         }
     }
 };
@@ -193,6 +193,13 @@ function setText(selector, value) {
     const element = document.querySelector(selector);
     if (element) {
         element.textContent = value;
+    }
+}
+
+function setHTML(selector, value) {
+    const element = document.querySelector(selector);
+    if (element) {
+        element.innerHTML = value;
     }
 }
 
@@ -208,15 +215,14 @@ function applyLanguage(language) {
     currentLanguage = language;
     document.documentElement.lang = language;
 
-    const switcher = document.querySelector("#language-switcher");
-    if (switcher) {
-        switcher.value = language;
-    }
+    document.querySelectorAll("#header-placeholder .lang-toggle button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.lang === language);
+    });
 
-    setText("#header-placeholder li:nth-child(1) a", t.nav.home);
-    setText("#header-placeholder li:nth-child(2) a", t.nav.services);
-    setText("#header-placeholder li:nth-child(4) a", t.nav.about);
-    setText("#header-placeholder .nav-cta a", t.nav.contact);
+    setText("#header-placeholder .nav-link-home", t.nav.home);
+    setText("#header-placeholder .nav-link-services", t.nav.services);
+    setText("#header-placeholder .nav-link-about", t.nav.about);
+    setText("#header-placeholder .nav-cta", t.nav.contact);
 
     setText("#home .eyebrow", t.home.eyebrow);
     setText("#home .site-status", t.home.status);
@@ -251,12 +257,12 @@ function applyLanguage(language) {
     setText("#about-us .about-copy p:nth-of-type(3)", t.about.p3);
     setText("#about-us .about-map-panel .eyebrow", t.about.mapEyebrow);
     setText("#about-us .about-map-panel h3", t.about.mapTitle);
-    setText("#about-us .about-map-panel p", t.about.mapBody);
+    setHTML("#about-us .about-map-panel p", t.about.mapBody);
     setText("#about-us .globe-tag", t.about.globeTag);
 
     setText("#contacto .contact-intro .eyebrow", t.contact.eyebrow);
     setText("#contacto .contact-intro h2", t.contact.title);
-    setText("#contacto .contact-intro p", t.contact.intro);
+    setHTML("#contacto .contact-intro p", t.contact.intro);
     setText("#contacto .contact-lead", t.contact.lead);
     setText("#contacto .contact-points span:nth-child(1)", t.contact.pointOne);
     setText("#contacto .contact-points span:nth-child(2)", t.contact.pointTwo);
@@ -269,23 +275,24 @@ function applyLanguage(language) {
     setText("#footer .footer-links a:nth-child(2)", t.footer.services);
     setText("#footer .footer-links a:nth-child(3)", t.footer.about);
     setText("#footer .footer-links a:nth-child(4)", t.footer.contact);
-    setText("#footer .footer-bottom p", t.footer.copy);
+    setHTML("#footer .footer-bottom p", t.footer.copy);
 }
 
 function setupLanguageSelector(root = document) {
-    const switcher = root.querySelector("#language-switcher") || document.querySelector("#language-switcher");
+    const toggle = root.querySelector(".lang-toggle") || document.querySelector(".lang-toggle");
 
-    if (!switcher || switcher.dataset.bound === "true") {
+    if (!toggle || toggle.dataset.bound === "true") {
         return;
     }
 
-    switcher.dataset.bound = "true";
-    switcher.value = currentLanguage;
+    toggle.dataset.bound = "true";
 
-    switcher.addEventListener("change", (event) => {
-        currentLanguage = event.target.value;
-        localStorage.setItem(STORAGE_LANGUAGE_KEY, currentLanguage);
-        applyLanguage(currentLanguage);
+    toggle.querySelectorAll("button[data-lang]").forEach((button) => {
+        button.addEventListener("click", () => {
+            currentLanguage = button.dataset.lang;
+            localStorage.setItem(STORAGE_LANGUAGE_KEY, currentLanguage);
+            applyLanguage(currentLanguage);
+        });
     });
 }
 
@@ -299,6 +306,12 @@ function setupHeaderMenu(root = document) {
     }
 
     toggle.dataset.bound = "true";
+
+    const updateScrolled = () => {
+        nav.classList.toggle("scrolled", window.scrollY > 20);
+    };
+    updateScrolled();
+    window.addEventListener("scroll", updateScrolled, { passive: true });
 
     const closeMenu = () => {
         menu.classList.remove("is-open");
@@ -323,14 +336,14 @@ function setupHeaderMenu(root = document) {
 
     menu.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => {
-            if (window.innerWidth <= 560) {
+            if (window.innerWidth <= 860) {
                 closeMenu();
             }
         });
     });
 
     window.addEventListener("resize", () => {
-        if (window.innerWidth > 560) {
+        if (window.innerWidth > 860) {
             menu.classList.remove("is-open");
             toggle.setAttribute("aria-expanded", "false");
             toggle.setAttribute("aria-label", "Open menu");

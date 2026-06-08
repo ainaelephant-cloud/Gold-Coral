@@ -1,26 +1,29 @@
 <!-- header.html -->
-<nav class="site-header">
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <ul class="nav-menu" id="primary-navigation">
-        <li><a href="#home">Inicio</a></li>
-        <li><a href="#servicios">Servicios</a></li>
-        <li class="nav-brand">
-            <a href="#home" aria-label="Gold Coral inicio">
-                <img src="img/logo.png" alt="Gold Coral">
-            </a>
-        </li>
-        <li><a href="#about-us">Sobre Nosotros</a></li>
-        <li class="nav-lang">
-            <label class="sr-only" for="language-switcher">Language</label>
-            <select id="language-switcher" name="language" aria-label="Language selector">
-                <option value="en">EN</option>
-                <option value="es">ES</option>
-            </select>
-        </li>
-        <li class="nav-cta"><a href="#contacto">Contacto</a></li>
-    </ul>
-</nav>
+<header class="site-header">
+    <nav class="nav">
+        <a href="#home" class="brand" aria-label="Gold Coral inicio">
+            <img src="img/logo.png" alt="Gold Coral">
+        </a>
+
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="nav-menu" id="primary-navigation">
+            <ul class="nav-links">
+                <li><a class="nav-link-home" href="#home">Inicio</a></li>
+                <li><a class="nav-link-services" href="#servicios">Servicios</a></li>
+                <li><a class="nav-link-about" href="#about-us">Sobre Nosotros</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="lang-toggle" role="group" aria-label="Language">
+                    <button type="button" data-lang="en">EN</button>
+                    <button type="button" data-lang="es">ES</button>
+                </div>
+                <a class="nav-cta" href="#contacto">Contacto</a>
+            </div>
+        </div>
+    </nav>
+</header>

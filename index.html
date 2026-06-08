@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gold Coral</title>
+        <title translate="no">Gold Coral</title>
         <meta name="description" content="Luxury concierge, lifestyle and VIP assistance services in the Dominican Republic.">
         <meta name="theme-color" content="#0b0b0b">
         <link rel="canonical" href="https://goldcoral.vip/">
@@ -17,11 +17,15 @@
         <meta name="twitter:title" content="Gold Coral">
         <meta name="twitter:description" content="Luxury concierge, lifestyle and VIP assistance services in the Dominican Republic.">
         <meta name="twitter:image" content="https://goldcoral.vip/img/logo_negro.jpeg">
-        <link rel="icon" type="image/jpeg" href="img/favicon.jpeg?v=20260331-1">
-        <link rel="apple-touch-icon" href="img/favicon.jpeg?v=20260331-1">
-        <link rel="stylesheet" href="styles/styles.css?v=20260331-1">
+        <link rel="icon" type="image/jpeg" href="img/favicon.jpeg?v=20260608-1">
+        <link rel="apple-touch-icon" href="/img/icon-192.png">
+        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="styles/styles.css?v=20260608-1">
         <script src="https://unpkg.com/globe.gl"></script>
-        <script src="scripts/script.js?v=20260331-1" defer></script>
+        <script src="scripts/script.js?v=20260608-1" defer></script>
     </head>
     <body>
         <div id="header-placeholder"></div>
@@ -31,5 +35,13 @@
         <div class="section" id="about-us"></div>
         <div class="section" id="contacto"></div>
         <div id="footer"></div>
+
+        <script>
+            if ("serviceWorker" in navigator) {
+                window.addEventListener("load", function () {
+                    navigator.serviceWorker.register("/sw.js").catch(function () {});
+                });
+            }
+        </script>
     </body>
 </html>
