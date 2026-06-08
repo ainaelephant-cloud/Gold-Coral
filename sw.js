@@ -1,5 +1,5 @@
 // Service worker minimo para la PWA de Gold Coral.
-const CACHE = "gold-coral-v3";
+const CACHE = "gold-coral-v4";
 const CORE = [
   "/", "/index.html", "/styles/styles.css", "/scripts/script.js",
   "/sections/header.html", "/sections/home.html", "/sections/servicios.html",
