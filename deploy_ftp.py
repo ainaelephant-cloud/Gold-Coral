@@ -17,9 +17,13 @@ BACKUP_DIR = os.path.join(ROOT, "_backup_ftp_20260608")
 # Archivos a desplegar (rutas relativas a la raíz del proyecto = raíz /public)
 FILES = [
     "index.html",
+    "acceso.html",
+    "area.html",
     "sw.js",
     "styles/styles.css",
+    "styles/area.css",
     "scripts/script.js",
+    "scripts/supabase-config.js",
     "sections/header.html",
     "sections/home.html",
     "sections/about-us.html",

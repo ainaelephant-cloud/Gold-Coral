@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title translate="no">Ficheros · Gold Coral</title>
+    <meta name="description" content="Ficheros compartidos de Gold Coral">
+    <meta name="theme-color" content="#0b0b0b">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/jpeg" href="img/favicon.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/area.css">
+</head>
+<body class="area-body">
+    <header class="area-bar">
+        <a href="index.html" class="area-brand" aria-label="Gold Coral">
+            <img src="img/logo.png" alt="Gold Coral">
+        </a>
+        <div class="area-user">
+            <span class="area-email" id="user-email"></span>
+            <button class="area-logout" id="logout-btn">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <main class="area-main">
+        <div class="area-wrap">
+            <div class="area-head">
+                <span class="eyebrow">Área privada</span>
+                <h1>Ficheros compartidos</h1>
+                <p>Sube, descarga y comparte ficheros del equipo. Solo accesible para personal autorizado.</p>
+            </div>
+
+            <div class="upload-zone" id="upload-zone">
+                <div class="upload-drop" id="upload-drop">
+                    <svg class="upload-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4m0 0 5 5m-5-5L7 9M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2"/></svg>
+                    <p class="upload-text"><b>Arrastra archivos aquí</b> o <button type="button" class="upload-pick" id="upload-pick">selecciónalos</button></p>
+                    <span class="upload-hint">Se compartirán con el equipo de Gold Coral</span>
+                </div>
+                <input type="file" id="file-input" multiple hidden>
+                <div class="upload-status" id="upload-status"></div>
+            </div>
+
+            <div class="docs-toolbar">
+                <span class="docs-count" id="docs-count"></span>
+                <button class="area-logout" id="refresh-btn">↻ Actualizar</button>
+            </div>
+
+            <div id="docs-container">
+                <div class="docs-loading" id="loading">
+                    <div class="spinner"></div>
+                    Cargando ficheros…
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts/supabase-config.js"></script>
+    <script>
+        (function () {
+            var sb = window.goldcoralClient();
+            var bucket = window.GOLDCORAL_SUPABASE.bucket;
+            var container = document.getElementById("docs-container");
+            var countEl = document.getElementById("docs-count");
+
+            var uploadDrop = document.getElementById("upload-drop");
+            var fileInput = document.getElementById("file-input");
+            var uploadStatus = document.getElementById("upload-status");
+
+            var FILE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
+            var DL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>';
+            var DEL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V6m4 4v6m4-6v6"/></svg>';
+
+            function fmtSize(bytes) {
+                if (!bytes && bytes !== 0) { return ""; }
+                if (bytes < 1024) { return bytes + " B"; }
+                if (bytes < 1048576) { return (bytes / 1024).toFixed(0) + " KB"; }
+                return (bytes / 1048576).toFixed(1) + " MB";
+            }
+            function fmtDate(iso) {
+                if (!iso) { return ""; }
+                try { return new Date(iso).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "numeric" }); }
+                catch (e) { return ""; }
+            }
+            function escapeHtml(s) {
+                return String(s).replace(/[&<>"']/g, function (c) {
+                    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+                });
+            }
+
+            async function descargar(path, name) {
+                var out = await sb.storage.from(bucket).createSignedUrl(path, 60, { download: name });
+                if (out.error || !out.data) {
+                    alert("No se ha podido generar la descarga. Inténtalo de nuevo.");
+                    return;
+                }
+                var a = document.createElement("a");
+                a.href = out.data.signedUrl;
+                a.download = name;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            }
+
+            async function eliminar(name) {
+                if (!window.confirm('¿Eliminar «' + name + '»? Esta acción no se puede deshacer.')) { return; }
+                var out = await sb.storage.from(bucket).remove([name]);
+                if (out.error) { alert("No se ha podido eliminar: " + (out.error.message || "")); return; }
+                cargarDocs();
+            }
+
+            // Supabase Storage rechaza claves con tildes/ñ y otros caracteres especiales.
+            // Quitamos acentos y sustituimos lo no permitido para que la subida no falle.
+            function limpiarNombre(nombre) {
+                return nombre
+                    .normalize("NFD").replace(/[̀-ͯ]/g, "") // quita tildes (é -> e, etc.)
+                    .replace(/[^\w.\- ]+/g, "_")                       // sustituye caracteres raros por "_"
+                    .replace(/\s+/g, " ").trim();
+            }
+
+            async function subirArchivos(fileList) {
+                var files = Array.prototype.slice.call(fileList);
+                if (!files.length) { return; }
+                var ok = 0, fail = 0, ultimoError = "";
+                for (var i = 0; i < files.length; i++) {
+                    var f = files[i];
+                    var nombre = limpiarNombre(f.name) || ("archivo_" + (i + 1));
+                    uploadStatus.className = "upload-status show";
+                    uploadStatus.textContent = "Subiendo " + (i + 1) + "/" + files.length + ": " + nombre + "…";
+                    var out = await sb.storage.from(bucket).upload(nombre, f, { upsert: true, contentType: f.type || undefined });
+                    if (out.error) { fail++; ultimoError = out.error.message || ""; } else { ok++; }
+                }
+                uploadStatus.textContent = "✓ " + ok + " archivo(s) subido(s)" +
+                    (fail ? " · " + fail + " con error" + (ultimoError ? " (" + ultimoError + ")" : "") : "");
+                setTimeout(function () { uploadStatus.className = "upload-status"; }, fail ? 8000 : 4000);
+                cargarDocs();
+            }
+
+            function wireUpload() {
+                document.getElementById("upload-pick").addEventListener("click", function () { fileInput.click(); });
+                fileInput.addEventListener("change", function () { subirArchivos(fileInput.files); fileInput.value = ""; });
+                ["dragenter", "dragover"].forEach(function (ev) {
+                    uploadDrop.addEventListener(ev, function (e) { e.preventDefault(); e.stopPropagation(); uploadDrop.classList.add("dragover"); });
+                });
+                ["dragleave", "drop"].forEach(function (ev) {
+                    uploadDrop.addEventListener(ev, function (e) { e.preventDefault(); e.stopPropagation(); uploadDrop.classList.remove("dragover"); });
+                });
+                uploadDrop.addEventListener("drop", function (e) {
+                    if (e.dataTransfer && e.dataTransfer.files) { subirArchivos(e.dataTransfer.files); }
+                });
+            }
+
+            function render(files) {
+                // Solo ficheros reales (las carpetas vienen sin metadata/id)
+                var docs = files.filter(function (f) { return f.id || (f.metadata && f.metadata.size !== undefined); });
+                docs.sort(function (a, b) { return a.name.localeCompare(b.name, "es"); });
+
+                if (!docs.length) {
+                    countEl.textContent = "";
+                    container.innerHTML = '<div class="docs-empty">Todavía no hay ficheros.<br>Arrastra archivos en la zona de arriba para compartirlos.</div>';
+                    return;
+                }
+                countEl.textContent = docs.length + (docs.length === 1 ? " fichero" : " ficheros");
+
+                var html = '<div class="docs-list">';
+                docs.forEach(function (f) {
+                    var size = f.metadata ? fmtSize(f.metadata.size) : "";
+                    var date = f.updated_at || f.created_at || (f.metadata && f.metadata.lastModified);
+                    var meta = [size, fmtDate(date)].filter(Boolean).join(" · ");
+                    html += '' +
+                        '<div class="doc-item">' +
+                            '<div class="doc-ico">' + FILE_ICON + '</div>' +
+                            '<div class="doc-info">' +
+                                '<div class="doc-name">' + escapeHtml(f.name) + '</div>' +
+                                '<div class="doc-meta">' + escapeHtml(meta) + '</div>' +
+                            '</div>' +
+                            '<button class="doc-dl" data-path="' + escapeHtml(f.name) + '" data-name="' + escapeHtml(f.name) + '">' +
+                                DL_ICON + 'Descargar' +
+                            '</button>' +
+                            '<button class="doc-del" data-del="' + escapeHtml(f.name) + '" title="Eliminar" aria-label="Eliminar">' + DEL_ICON + '</button>' +
+                        '</div>';
+                });
+                html += '</div>';
+                container.innerHTML = html;
+
+                container.querySelectorAll(".doc-dl").forEach(function (btn) {
+                    btn.addEventListener("click", function () {
+                        descargar(btn.getAttribute("data-path"), btn.getAttribute("data-name"));
+                    });
+                });
+                container.querySelectorAll(".doc-del").forEach(function (btn) {
+                    btn.addEventListener("click", function () {
+                        eliminar(btn.getAttribute("data-del"));
+                    });
+                });
+            }
+
+            async function cargarDocs() {
+                container.innerHTML = '<div class="docs-loading"><div class="spinner"></div>Cargando ficheros…</div>';
+                var out = await sb.storage.from(bucket).list("", { limit: 200, sortBy: { column: "name", order: "asc" } });
+                if (out.error) {
+                    container.innerHTML = '<div class="docs-empty">No se han podido cargar los ficheros.<br>' + escapeHtml(out.error.message || "") + '</div>';
+                    return;
+                }
+                render(out.data || []);
+            }
+
+            async function init() {
+                var res = await sb.auth.getSession();
+                if (!res.data.session) {
+                    window.location.replace("acceso.html");
+                    return;
+                }
+                document.getElementById("user-email").textContent = res.data.session.user.email || "";
+                wireUpload();
+                cargarDocs();
+            }
+
+            document.getElementById("logout-btn").addEventListener("click", async function () {
+                await sb.auth.signOut();
+                window.location.replace("acceso.html");
+            });
+            document.getElementById("refresh-btn").addEventListener("click", cargarDocs);
+
+            // Si la sesión se cierra en otra pestaña, redirige
+            sb.auth.onAuthStateChange(function (event, session) {
+                if (!session) { window.location.replace("acceso.html"); }
+            });
+
+            init();
+        })();
+    </script>
+</body>
+</html>
