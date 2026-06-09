@@ -1,5 +1,5 @@
 const STORAGE_LANGUAGE_KEY = "gold-coral-language";
-const ASSET_VERSION = "20260609-1";
+const ASSET_VERSION = "20260609-2";
 let currentLanguage = localStorage.getItem(STORAGE_LANGUAGE_KEY) || "en";
 
 const translations = {
@@ -8,6 +8,7 @@ const translations = {
             home: "Home",
             services: "Services",
             about: "About Us",
+            app: "App",
             access: "Access",
             contact: "Contact"
         },
@@ -78,6 +79,19 @@ const translations = {
             mapBody: "<span translate='no' class='notranslate'>Gold Coral</span> connects luxury, warmth and experience with the spirit of the Caribbean, allowing Punta Cana to stand out as a destination and reference point.",
             globeTag: "Punta Cana"
         },
+        downloads: {
+            eyebrow: "App",
+            title: "Install the Gold Coral app",
+            intro: "Take Gold Coral with you. Our home-services app connects clients with trusted providers, available on iPhone, Android and desktop.",
+            lead: "Open it in your browser or install it as an app to keep it one tap away — no app store needed.",
+            open: "Open the app",
+            androidTitle: "Android (Chrome)",
+            android: "Open <span translate='no'>goldcoral.netlify.app</span>, tap the ⋮ menu and choose “Add to Home screen” or “Install app”.",
+            iosTitle: "iPhone / iPad (Safari)",
+            ios: "Open <span translate='no'>goldcoral.netlify.app</span>, tap the Share button and choose “Add to Home Screen”.",
+            desktopTitle: "Desktop (Chrome/Edge)",
+            desktop: "Open <span translate='no'>goldcoral.netlify.app</span> and click the install ⊕ icon in the address bar."
+        },
         contact: {
             eyebrow: "Contact",
             title: "Let's talk about the experience you need",
@@ -101,6 +115,7 @@ const translations = {
             home: "Inicio",
             services: "Servicios",
             about: "Sobre Nosotros",
+            app: "App",
             access: "Acceso",
             contact: "Contacto"
         },
@@ -171,6 +186,19 @@ const translations = {
             mapBody: "<span translate='no' class='notranslate'>Gold Coral</span> conecta lujo, calidez y experiencia con el espíritu del Caribe, dejando que Punta Cana destaque como punto de referencia.",
             globeTag: "Punta Cana"
         },
+        downloads: {
+            eyebrow: "App",
+            title: "Instala la app de Gold Coral",
+            intro: "Lleva Gold Coral en tu móvil. Nuestra app de servicios del hogar conecta a clientes con proveedores de confianza, disponible en iPhone, Android y escritorio.",
+            lead: "Ábrela en el navegador o instálala como app para tenerla a un toque, sin pasar por la tienda de aplicaciones.",
+            open: "Abrir la app",
+            androidTitle: "Android (Chrome)",
+            android: "Abre <span translate='no'>goldcoral.netlify.app</span>, toca el menú ⋮ y elige «Añadir a pantalla de inicio» o «Instalar app».",
+            iosTitle: "iPhone / iPad (Safari)",
+            ios: "Abre <span translate='no'>goldcoral.netlify.app</span>, pulsa el botón Compartir y elige «Añadir a pantalla de inicio».",
+            desktopTitle: "Escritorio (Chrome/Edge)",
+            desktop: "Abre <span translate='no'>goldcoral.netlify.app</span> y pulsa el icono de instalar ⊕ de la barra de direcciones."
+        },
         contact: {
             eyebrow: "Contacto",
             title: "Hablemos de la experiencia que necesitas",
@@ -224,6 +252,7 @@ function applyLanguage(language) {
     setText("#header-placeholder .nav-link-home", t.nav.home);
     setText("#header-placeholder .nav-link-services", t.nav.services);
     setText("#header-placeholder .nav-link-about", t.nav.about);
+    setText("#header-placeholder .nav-link-app", t.nav.app);
     setText("#header-placeholder .nav-link-access", t.nav.access);
     setText("#header-placeholder .nav-cta", t.nav.contact);
 
@@ -262,6 +291,18 @@ function applyLanguage(language) {
     setText("#about-us .about-map-panel h3", t.about.mapTitle);
     setHTML("#about-us .about-map-panel p", t.about.mapBody);
     setText("#about-us .globe-tag", t.about.globeTag);
+
+    setText("#descargas .downloads-intro .eyebrow", t.downloads.eyebrow);
+    setText("#descargas .downloads-intro h2", t.downloads.title);
+    setText("#descargas .downloads-intro p", t.downloads.intro);
+    setText("#descargas .downloads-lead", t.downloads.lead);
+    setText("#descargas .downloads-open-label", t.downloads.open);
+    setText("#descargas .dl-android-t", t.downloads.androidTitle);
+    setHTML("#descargas .dl-android", t.downloads.android);
+    setText("#descargas .dl-ios-t", t.downloads.iosTitle);
+    setHTML("#descargas .dl-ios", t.downloads.ios);
+    setText("#descargas .dl-desktop-t", t.downloads.desktopTitle);
+    setHTML("#descargas .dl-desktop", t.downloads.desktop);
 
     setText("#contacto .contact-intro .eyebrow", t.contact.eyebrow);
     setText("#contacto .contact-intro h2", t.contact.title);
@@ -513,5 +554,6 @@ loadSection("sections/header.html", "header-placeholder", setupHeaderMenu);
 loadSection("sections/home.html", "home", setupHomeCarousel);
 loadSection("sections/servicios.html", "servicios", setupServicesCarousel);
 loadSection("sections/about-us.html", "about-us", setupDominicanGlobe);
+loadSection("sections/descargas.html", "descargas");
 loadSection("sections/contacto.html", "contacto");
 loadSection("sections/footer.html", "footer");

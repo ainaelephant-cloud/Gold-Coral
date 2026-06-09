@@ -27,6 +27,7 @@ FILES = [
     "sections/header.html",
     "sections/home.html",
     "sections/about-us.html",
+    "sections/descargas.html",
     "sections/contacto.html",
     "sections/footer.html",
 ]

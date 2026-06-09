@@ -1,11 +1,11 @@
 // Service worker minimo para la PWA de Gold Coral.
-const CACHE = "gold-coral-v6";
+const CACHE = "gold-coral-v7";
 // Páginas/recursos del área privada: nunca se cachean (siempre desde red).
 const BYPASS = ["/acceso.html", "/area.html", "/styles/area.css", "/scripts/supabase-config.js"];
 const CORE = [
   "/", "/index.html", "/styles/styles.css", "/scripts/script.js",
   "/sections/header.html", "/sections/home.html", "/sections/servicios.html",
-  "/sections/about-us.html", "/sections/contacto.html", "/sections/footer.html",
+  "/sections/about-us.html", "/sections/descargas.html", "/sections/contacto.html", "/sections/footer.html",
   "/img/logo.png", "/img/icon-192.png", "/img/icon-512.png",
   "/downloads/", "/manifest.webmanifest"
 ];
