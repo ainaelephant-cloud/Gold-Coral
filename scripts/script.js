@@ -1,5 +1,5 @@
 const STORAGE_LANGUAGE_KEY = "gold-coral-language";
-const ASSET_VERSION = "20260608-1";
+const ASSET_VERSION = "20260609-1";
 let currentLanguage = localStorage.getItem(STORAGE_LANGUAGE_KEY) || "en";
 
 const translations = {
@@ -8,6 +8,7 @@ const translations = {
             home: "Home",
             services: "Services",
             about: "About Us",
+            access: "Access",
             contact: "Contact"
         },
         home: {
@@ -100,6 +101,7 @@ const translations = {
             home: "Inicio",
             services: "Servicios",
             about: "Sobre Nosotros",
+            access: "Acceso",
             contact: "Contacto"
         },
         home: {
@@ -222,6 +224,7 @@ function applyLanguage(language) {
     setText("#header-placeholder .nav-link-home", t.nav.home);
     setText("#header-placeholder .nav-link-services", t.nav.services);
     setText("#header-placeholder .nav-link-about", t.nav.about);
+    setText("#header-placeholder .nav-link-access", t.nav.access);
     setText("#header-placeholder .nav-cta", t.nav.contact);
 
     setText("#home .eyebrow", t.home.eyebrow);
