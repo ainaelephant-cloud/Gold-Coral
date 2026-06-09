@@ -30,6 +30,10 @@ FILES = [
     "sections/descargas.html",
     "sections/contacto.html",
     "sections/footer.html",
+    "aviso-legal.html",
+    "politica-privacidad.html",
+    "terminos-condiciones.html",
+    "sitemap.xml",
 ]
 
 ftp = ftplib.FTP()
